@@ -616,3 +616,21 @@ test Duplicate variables in ONE ROW PER STEP (3) [[
     FROM MATCH ANY (b) ->* (c) ONE ROW PER STEP (v, [[e]], [[e]])
 
 ]] error like "Duplicate variable" at #1, #2
+
+test Unexpected aggregation without group variable (1) [[
+
+  SELECT COUNT(e), [[COUNT(*)]] FROM MATCH ANY (a) -[e]->* (b)
+
+]] error like "SELECT has another aggregation with a group variable so an aggregation without group variable is not expected here" at #1
+
+test Unexpected aggregation without group variable (2) [[
+
+  SELECT COUNT(e), [[COUNT(b)]] FROM MATCH ANY (a) -[e]->* (b)
+
+]] error like "SELECT has another aggregation with a group variable so an aggregation without group variable is not expected here" at #1
+
+test Unexpected aggregation without group variable (2) [[
+
+  SELECT COUNT(e), [[COUNT(1)]] FROM MATCH ANY (a) -[e]->* (b)
+
+]] error like "SELECT has another aggregation with a group variable so an aggregation without group variable is not expected here" at #1

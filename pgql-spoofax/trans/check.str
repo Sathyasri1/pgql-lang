@@ -109,6 +109,12 @@ rules // Unresolved/duplicate variables
       aggregations := <get-aggregations-without-group-variables> t;
       <batch-generate-error(|ctx, "Aggregation without group variables not allowed in GROUP BY")> aggregations
 
+  nabl-constraint(|ctx):
+    NormalizedQuery(_, selectClause, _, _, _, groupBy, _, _, _, _, _, _, _) -> <fail>
+    where <?None()> groupBy
+    with aggregations-without-group-variables := <get-aggregations-without-group-variables> selectClause
+       ; <batch-generate-error(|ctx, "SELECT has another aggregation with a group variable so an aggregation without group variable is not expected here")> aggregations-without-group-variables
+
   get-aggregations-without-group-variables = get-aggregations; filter(not(contains-varRef + contains-nested-aggregation))
 
   contains-varRef = oncetd(?VarRef(_, _))
