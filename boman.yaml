@@ -1,5 +1,5 @@
 Auth:
-  project_token: 98214b62-e2ae-4ba9-ac2d-e091a74a91b9
+  project_token: f28c0e08-46fb-4fa3-906c-e6675a716283
   customer_token: 70b76e8f-ad96-49b9-ad5d-cf1389168167
 SAST:
   language: semgrep
